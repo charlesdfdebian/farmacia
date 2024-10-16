@@ -11,7 +11,7 @@ app.secret_key = '8714f3545df770ac8b40d7235a59562d'  # Necessário para exibir m
 # Rota principal (Página inicial com os botões de Login e Cadastro)
 @app.route('/')
 def home():
-       return render_template('index.html')
+       return render_template('principal.html')
 
 @app.route('/sobre')
 def sobre():
@@ -29,22 +29,34 @@ def verificar_login():
     senha = request.form['password']
     db = get_db_connection()
     
-
+    usuario = Clientes.verificar_login( username, senha, db)
+    
     # Verificar login
-    if Clientes.verificar_login( username, senha, db):
+    if usuario != None:
         #return render_template('result.html', message="Login bem-sucedido!")
-        session['logged_in'] = True
-        return   render_template('funcionario.html')
+        session['usuario'] = usuario
+        if 'usuario' in session:
+           # return f'Você está logado como {session["usuario"]}. <br><a href="/logout">Sair</a>'
+            return   render_template('funcionario.html')
+
+        return 'Você não está logado. <br><a href="/login">Login</a>'
 
     else:
-        session['logged_in'] = False
+        session['usuario'] = ""
         return  render_template('result.html', message="Usuário ou senha incorretos!")
     
     db.close()
 
+# Logout
+@app.route('/logout')
+def logout():
+    session.pop('username', None)  # Remove o usuário da sessão
+    return redirect(url_for('home'))
 # Cadastro de clientes
 @app.route('/inseri_clientes', methods=['GET', 'POST'])
 def inseri_clientes():
+  if 'usuario' in session:
+  
     if request.method == 'POST':
         # Coleta os dados do formulário
         nome = request.form['nome']
@@ -59,13 +71,14 @@ def inseri_clientes():
         db.close()
 
         return redirect(url_for('success', message='Cliente cadastrado com sucesso!'))
-
     return render_template('inseri_clientes.html')
+  return render_template('index.html')
+  
 
 # Cadastro de produtos
 @app.route('/inseri_produtos', methods=['GET', 'POST'])
 def inseri_produtos():
-    if 'logged_in' in session:
+    if 'usuario' in session:
 
         if request.method == 'POST':
             # Coleta os dados do formulário
@@ -86,29 +99,19 @@ def inseri_produtos():
         return render_template('inseri_produtos.html')
     return render_template('index.html')
  
- # Função para obter todos os produtos do banco de dados
-def obter_produtos():
-    connection = get_db_connection()
-    cursor = connection.cursor(dictionary=True)
-    cursor.execute('SELECT * FROM produtos')
-    produtos = cursor.fetchall()
-    connection.close()
-    return produtos
+ 
     
 # lista  de produtos
 @app.route('/listaproduto')
 def listaproduto():
-  #  if 'logged_in' in session:
+  if 'usuario' in session:
 
-#if request.method == 'POST':
             
-#            produtos = Produtos("",1.1, 1)
             db = get_db_connection()
             produtos =Produtos.listaproduto(db)
-    #        produtos = obter_produtos()
             return render_template('listaproduto.html', produtos=produtos)
             db.close()
-  #  return render_template('index.html') 
+  return render_template('index.html') 
     
 # Página de sucesso
 @app.route('/success')

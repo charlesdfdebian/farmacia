@@ -35,17 +35,20 @@ class Clientes:
             cursor = db.cursor()
 
 
-            sql = "SELECT SenhaClienteMD5 FROM clientes WHERE EmailCliente = %s"
+            sql = "SELECT SenhaClienteMD5,EmailCliente FROM clientes WHERE EmailCliente = %s"
             cursor.execute(sql, (username,))
             resultado = cursor.fetchone()
 
             if resultado:
                 senha_md5_banco = resultado[0]
+                usuario=resultado[1]
+                
                 senha_md5_input = Clientes._gerar_senha_md5_static(senha)
 
-                return  senha_md5_banco == senha_md5_input
-
-            return False
+                if  senha_md5_banco == senha_md5_input:
+                     return  usuario  
+                else:
+                     return None
 
         except mysql.connector.Error as err:
             print(f"Erro: {err}")
