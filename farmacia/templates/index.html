@@ -1,22 +1,21 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login ou Cadastro</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-
-<div class="container">
-    <h2>Bem-vindo a Farmácia Tomou Balão</h2>
-    <p>Faça login ou cadastre-se para continuar.</p>
-
-    <div class="button-group">
-        <a href="{{ url_for('login') }}" class="button">Logar</a>
-        <a href="{{ url_for('inseri_clientes') }}" class="button">Cadastrar</a>
+    <!DOCTYPE html>
+    <html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login ou Cadastro</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+  
+     <div class="container">
+        <h2>Bem-vindo a Farmácia Tomou Balão</h2>
+        <p>Faça login ou cadastre-se para continuar.</p>
+            <div class="button-group">
+            <a href="{{ url_for('login') }}" class="button">Logar</a>
+            <a href="{{ url_for('inseri_clientes') }}" class="button">Cadastrar</a>
+        </div>
     </div>
-</div>
-
-</body>
-</html>
+   
+    </body>
+    </html>

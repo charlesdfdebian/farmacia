@@ -1,9 +1,10 @@
 import mysql.connector
+from decimal import Decimal
 
 class Produtos:
     def __init__(self, nome_produto, preco, estoque):
         self.nome_produto = nome_produto
-        self.preco = preco
+        self.preco = Decimal(preco)
         self.estoque = estoque
 
     # Método para salvar produto no banco de dados

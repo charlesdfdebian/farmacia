@@ -29,7 +29,7 @@ class Clientes:
             db.close()
 
     @staticmethod
-    def verificar_login( username, senha, db):
+    def verificar_login(  username, senha, db):
         """Verifica o login de um usuário, comparando a senha fornecida com a armazenada."""
         try:
             cursor = db.cursor()
@@ -43,7 +43,7 @@ class Clientes:
                 senha_md5_banco = resultado[0]
                 senha_md5_input = Clientes._gerar_senha_md5_static(senha)
 
-                return senha_md5_banco == senha_md5_input
+                return  senha_md5_banco == senha_md5_input
 
             return False
 

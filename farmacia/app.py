@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, session, url_for
 import mysql.connector
 from models.clientes import Clientes
 from models.produtos import Produtos
 
 app = Flask(__name__)
+app.secret_key = '8714f3545df770ac8b40d7235a59562d'  # Necessário para exibir mensagens flash
 
 # Conexão com o banco de dados
 def get_db_connection():
@@ -17,13 +18,17 @@ def get_db_connection():
 # Rota principal (Página inicial com os botões de Login e Cadastro)
 @app.route('/')
 def home():
-    return render_template('index.html')
+       return render_template('index.html')
+
+@app.route('/sobre')
+def sobre():
+       return render_template('sobre.html')
 
 ## Página de login
 @app.route('/login')
 def login():
-    return render_template('login.html')
-
+     return render_template('login.html')
+    
 # Verificar login
 @app.route('/login', methods=['POST'])
 def verificar_login():
@@ -33,10 +38,14 @@ def verificar_login():
     
 
     # Verificar login
-    if Clientes.verificar_login(username, senha, db):
-        return render_template('result.html', message="Login bem-sucedido!")
+    if Clientes.verificar_login( username, senha, db):
+        #return render_template('result.html', message="Login bem-sucedido!")
+        session['logged_in'] = True
+        return   render_template('funcionario.html')
+
     else:
-        return render_template('result.html', message="Usuário ou senha incorretos!")
+        session['logged_in'] = False
+        return  render_template('result.html', message="Usuário ou senha incorretos!")
     
     db.close()
 
@@ -63,23 +72,27 @@ def inseri_clientes():
 # Cadastro de produtos
 @app.route('/inseri_produtos', methods=['GET', 'POST'])
 def inseri_produtos():
-    if request.method == 'POST':
-        # Coleta os dados do formulário
-        nome_produto = request.form['nome_produto']
-        preco = request.form['preco']
-        estoque = request.form['estoque']
+    if 'logged_in' in session:
 
+        if request.method == 'POST':
+            # Coleta os dados do formulário
+            nome_produto = request.form['nome_produto']
+            preco = request.form['preco']
+            estoque = request.form['estoque']
 
-        # Cria um objeto Product e salva no banco de dados
-        produtos = Produtos(nome_produto, preco, estoque)        
-        db = get_db_connection()
-        produtos.salvar(db)
-        db.close()
+            preco = preco.replace(",", ".")
+            
+            # Cria um objeto Product e salva no banco de dados
+            produtos = Produtos(nome_produto, preco, estoque)        
+            db = get_db_connection()
+            produtos.salvar(db)
+            db.close()
 
-        return redirect(url_for('success', message='Produto cadastrado com sucesso!'))
+            return redirect(url_for('success', message='Produto cadastrado com sucesso!'))
 
-    return render_template('inseri_produtos.html')
-
+        return render_template('inseri_produtos.html')
+    return render_template('index.html')
+    
 # Página de sucesso
 @app.route('/success')
 def success():

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página com Menu Lateral, Imagem e iFrame</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='menulateral.css') }}">
+
+  </head>
+<body>
+
+    <div class="menu-lateral">
+        <h2>Menu</h2>
+        <ul>
+           <li> <a href="https://www.globo.com" target="iframe-conteudo">Produtos</a>
+                <!-- Subnível -->
+                <ul>
+                    <li><a href="{{ url_for('inseri_produtos') }}" target="iframe-conteudo">Cadastrar</a></li>
+                    <li><a href="#" target="iframe-conteudo">Alterar</a></li>
+                    <li><a href="#" target="iframe-conteudo">Excluir</a></li>
+                </ul>
+        </li>
+           <li> <a href="{{ url_for('sobre') }}" target="iframe-conteudo">Sobre</a></li>
+           <li> <a href="https://www.example.com/servicos" target="iframe-conteudo">Serviços</a></li>
+           <li> <a href="https://www.example.com/contato" target="iframe-conteudo">Contato</a></li>
+      </ul>
+    </div>
+
+    <div class="conteudo">
+      <!--  <img src="https://via.placeholder.com/200X400" alt="Imagem Topo" class="imagem-topo">-->
+        <h1><center>Bem-vindo à Minha Página</center></h1>
+        <p>Este é um exemplo de uma página com um menu lateral à esquerda, uma imagem no topo e um iframe abaixo.</p>
+        
+        <div class="iframe-container">
+            <iframe name="iframe-conteudo" src="https://www.example.com" title="Exemplo de iFrame"></iframe>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -4,24 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Cliente</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='cadastro.css') }}">
+
 </head>
 <body>
+<div class="container">
+
     <h2>Cadastro de Cliente</h2>
     <form method="POST" action="/inseri_clientes">
+      <div class="form-group">
         <label for="nome">Nome:</label>
         <input type="text" id="nome" name="nome" required><br><br>
-
+     </div>
+    <div class="form-group">     
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required><br><br>
-
+     </div>
+    <div class="form-group">    
         <label for="telefone">Telefone:</label>
         <input type="text" id="telefone" name="telefone" required><br><br>
-        
+     </div>
+    <div class="form-group">     
         <label for="senha">Digite a senha:</label>
         <input type="password" id="senha" name="senha" required><br><br>
-
+    </div>
 
         <input type="submit" value="Cadastrar Cliente">
     </form>
+   </div> 
 </body>
 </html>
