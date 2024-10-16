@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project famarcia -->
-<!-- Saved: 2024-10-14, 22:47:59 -->
+<!-- Saved: 2024-10-15, 22:35:47 -->
 <!-- Copyright (C) 2024 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -14,12 +14,14 @@
   <Eol index="0"/>
   <Sources>
     <Source>app.py</Source>
+    <Source>db_config.py</Source>
     <Source>models/clientes.py</Source>
     <Source>models/produtos.py</Source>
   </Sources>
   <Others>
     <Other>.gitignore</Other>
     <Other>static</Other>
+    <Other>static/editarexcluirproduto.css</Other>
     <Other>static/lista.css</Other>
     <Other>static/menulateral.css</Other>
     <Other>static/style2.css</Other>
@@ -27,6 +29,7 @@
     <Other>templates/inseri_clientes.html</Other>
     <Other>templates/inseri_produtos.html</Other>
     <Other>templates/lista.html</Other>
+    <Other>templates/listaproduto.html</Other>
     <Other>templates/login.html</Other>
     <Other>templates/principal.html</Other>
     <Other>templates/result.html</Other>

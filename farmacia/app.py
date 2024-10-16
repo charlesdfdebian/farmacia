@@ -1,19 +1,12 @@
 from flask import Flask, render_template, request, redirect, session, url_for
-import mysql.connector
+#import mysql.connector
+from db_config import get_db_connection
 from models.clientes import Clientes
 from models.produtos import Produtos
 
 app = Flask(__name__)
 app.secret_key = '8714f3545df770ac8b40d7235a59562d'  # Necessário para exibir mensagens flash
 
-# Conexão com o banco de dados
-def get_db_connection():
-    return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",  # Altere para sua senha do MySQL
-        database="farmacia_db"
-    )
 
 # Rota principal (Página inicial com os botões de Login e Cadastro)
 @app.route('/')
@@ -92,6 +85,30 @@ def inseri_produtos():
 
         return render_template('inseri_produtos.html')
     return render_template('index.html')
+ 
+ # Função para obter todos os produtos do banco de dados
+def obter_produtos():
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute('SELECT * FROM produtos')
+    produtos = cursor.fetchall()
+    connection.close()
+    return produtos
+    
+# lista  de produtos
+@app.route('/listaproduto')
+def listaproduto():
+  #  if 'logged_in' in session:
+
+#if request.method == 'POST':
+            
+#            produtos = Produtos("",1.1, 1)
+            db = get_db_connection()
+            produtos =Produtos.listaproduto(db)
+    #        produtos = obter_produtos()
+            return render_template('listaproduto.html', produtos=produtos)
+            db.close()
+  #  return render_template('index.html') 
     
 # Página de sucesso
 @app.route('/success')
